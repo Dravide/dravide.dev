@@ -23,6 +23,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
     Route::delete('portfolios/images/{image}', [PortfolioController::class, 'deleteImage'])->name('portfolios.delete-image');
+    Route::delete('portfolios/{portfolio}/main-image', [PortfolioController::class, 'deleteMainImage'])->name('portfolios.delete-main-image');
     Route::resource('portfolios', PortfolioController::class);
     Route::post('tech-stack/reorder', [TechStackController::class, 'reorder'])->name('tech-stack.reorder');
     Route::resource('tech-stack', TechStackController::class); // Added this line

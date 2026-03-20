@@ -16,12 +16,18 @@
     </div>
 </div>
 
-@if(isset($portfolio))
+@if(isset($portfolio) && $portfolio->exists)
     @foreach($portfolio->images as $img)
         <form id="delete-img-{{ $img->id }}" action="{{ route('admin.portfolios.delete-image', $img) }}" method="POST" style="display: none;">
             @csrf
             @method('DELETE')
         </form>
     @endforeach
+    @if($portfolio->image)
+        <form id="delete-main-img" action="{{ route('admin.portfolios.delete-main-image', $portfolio) }}" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
+    @endif
 @endif
 @endsection

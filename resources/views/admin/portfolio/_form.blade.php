@@ -70,8 +70,15 @@
         <div class="mb-4">
             <label class="form-label font-bold">Main Thumbnail</label>
             @if(isset($portfolio) && $portfolio->image)
-                <div class="mb-2">
-                    <img src="{{ Storage::url($portfolio->image) }}" alt="{{ $portfolio->title }}" class="rounded shadow-sm border w-full h-32 object-cover">
+                <div class="mb-2 position-relative d-inline-block">
+                    <img src="{{ Storage::url($portfolio->image) }}" alt="{{ $portfolio->title }}" class="rounded shadow-sm border h-32 object-cover" style="max-width: 100%;">
+                    <button type="button" 
+                        onclick="if(confirm('Delete main thumbnail?')) { document.getElementById('delete-main-img').submit(); }"
+                        class="btn btn-danger btn-icon btn-sm position-absolute top-0 end-0 m-2 shadow-sm" 
+                        title="Delete Thumbnail"
+                        style="width: 28px; height: 28px; padding: 0; z-index: 10;">
+                        <i class="ti ti-trash"></i>
+                    </button>
                 </div>
             @endif
             <input type="file" class="form-control" name="image" accept="image/*">
@@ -87,12 +94,13 @@
                 <div class="mt-3 row g-2">
                     @foreach($portfolio->images as $img)
                         <div class="col-4 position-relative group">
-                            <img src="{{ Storage::url($img->image_path) }}" class="rounded border w-full h-16 object-cover">
+                            <img src="{{ Storage::url($img->image_path) }}" class="rounded border w-full h-16 object-cover mb-1">
                             <button type="button" 
                                 onclick="if(confirm('Delete this image?')) { document.getElementById('delete-img-{{ $img->id }}').submit(); }"
-                                class="btn btn-danger btn-icon btn-sm position-absolute top-0 end-0 m-1 opacity-0 group-hover:opacity-100 transition-opacity" 
-                                style="width: 20px; height: 20px; padding: 0;">
-                                <i class="ti ti-x text-[10px]"></i>
+                                class="btn btn-danger btn-icon btn-sm position-absolute top-0 end-0 m-1 shadow-sm" 
+                                title="Delete Image"
+                                style="width: 22px; height: 22px; padding: 0; z-index: 10;">
+                                <i class="ti ti-trash text-[10px]"></i>
                             </button>
                         </div>
                     @endforeach

@@ -116,6 +116,15 @@ class PortfolioController extends Controller
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio item deleted successfully.');
     }
 
+    public function deleteMainImage(Portfolio $portfolio)
+    {
+        if ($portfolio->image) {
+            Storage::disk('public')->delete($portfolio->image);
+            $portfolio->update(['image' => null]);
+        }
+        return back()->with('success', 'Main image deleted successfully.');
+    }
+
     public function deleteImage(PortfolioImage $image)
     {
         Storage::disk('public')->delete($image->image_path);
