@@ -195,14 +195,14 @@
         </div>
     </footer>
 
-    <!-- Project Detail Modal -->
+    <!-- Modal System -->
     <template x-teleport="body">
-        <div x-show="selectedProject" 
+        <div x-show="selectedProject || selectedPost" 
             class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
             x-cloak>
             
             <!-- Backdrop -->
-            <div x-show="selectedProject" 
+            <div x-show="selectedProject || selectedPost" 
                 x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100"
@@ -210,9 +210,9 @@
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0"
                 class="fixed inset-0 bg-black/60 backdrop-blur-sm"
-                @click="selectedProject = null"></div>
+                @click="selectedProject = null; selectedPost = null"></div>
 
-            <!-- Modal Content -->
+            <!-- Project Modal Content -->
             <div x-show="selectedProject"
                 x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -272,27 +272,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </template>
 
-    <!-- Blog Post Detail Modal -->
-    <template x-teleport="body">
-        <div x-show="selectedPost" 
-            class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-            x-cloak>
-            
-            <!-- Backdrop -->
-            <div x-show="selectedPost" 
-                x-transition:enter="ease-out duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="ease-in duration-200"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 bg-black/60 backdrop-blur-sm"
-                @click="selectedPost = null"></div>
-
-            <!-- Modal Content -->
+            <!-- Blog Post Modal Content -->
             <div x-show="selectedPost"
                 x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
