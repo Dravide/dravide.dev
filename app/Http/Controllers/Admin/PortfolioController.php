@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
+use App\Models\TechStack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +18,8 @@ class PortfolioController extends Controller
 
     public function create()
     {
-        return view('admin.portfolio.create');
+        $techStacks = TechStack::ordered()->get();
+        return view('admin.portfolio.create', compact('techStacks'));
     }
 
     public function store(Request $request)
@@ -39,15 +41,20 @@ class PortfolioController extends Controller
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('portfolios', 'public');
         }
-
-        Portfolio::create($validated);
+ 
+        $portfolio = Portfolio::create($validated);
+        
+        if ($request->has('tech_stacks')) {
+            $portfolio->techStacks()->sync($request->tech_stacks);
+        }
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio item created successfully.');
     }
 
     public function edit(Portfolio $portfolio)
     {
-        return view('admin.portfolio.edit', compact('portfolio'));
+        $techStacks = TechStack::ordered()->get();
+        return view('admin.portfolio.edit', compact('portfolio', 'techStacks'));
     }
 
     public function update(Request $request, Portfolio $portfolio)
@@ -73,6 +80,12 @@ class PortfolioController extends Controller
         }
 
         $portfolio->update($validated);
+ 
+        if ($request->has('tech_stacks')) {
+            $portfolio->techStacks()->sync($request->tech_stacks);
+        } else {
+            $portfolio->techStacks()->sync([]);
+        }
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio item updated successfully.');
     }

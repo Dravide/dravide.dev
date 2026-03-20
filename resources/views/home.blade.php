@@ -96,6 +96,28 @@
                         {{ Str::limit($portfolio->description, 80) }}
                     </p>
 
+                    <template x-if="selectedProject && selectedProject.id == {{ $portfolio->id }} && selectedProject.tech_stacks">
+                        <div class="mt-4 flex flex-wrap gap-1.5">
+                            @foreach($portfolio->techStacks as $tech)
+                                <div class="w-5 h-5 rounded-md bg-gray-50 flex items-center justify-center text-[10px]" title="{{ $tech->name }}">
+                                    <i class="{{ $tech->icon }}" style="color: {{ $tech->color ?? '#9ca3af' }}"></i>
+                                </div>
+                            @endforeach
+                        </div>
+                    </template>
+                    @if($portfolio->techStacks->isNotEmpty())
+                        <div class="mt-4 flex flex-wrap gap-1.5">
+                            @foreach($portfolio->techStacks->take(5) as $tech)
+                                <div class="w-5 h-5 rounded-md bg-gray-50 flex items-center justify-center text-[10px]" title="{{ $tech->name }}">
+                                    <i class="{{ $tech->icon }}" style="color: {{ $tech->color ?? '#9ca3af' }}"></i>
+                                </div>
+                            @endforeach
+                            @if($portfolio->techStacks->count() > 5)
+                                <span class="text-[8px] text-gray-400 font-bold">+{{ $portfolio->techStacks->count() - 5 }}</span>
+                            @endif
+                        </div>
+                    @endif
+
                     <div class="mt-4 flex items-center text-[10px] font-bold text-accent uppercase tracking-wider group-hover:translate-x-1 transition-transform">
                         Project Details <i class="ti ti-arrow-narrow-right ms-1"></i>
                     </div>
@@ -254,6 +276,21 @@
                     <div class="prose prose-sm max-w-none text-gray-600 mb-8 leading-relaxed">
                         <p x-text="selectedProject ? selectedProject.description : ''"></p>
                     </div>
+
+                    <!-- Tech Stack In Modal -->
+                    <template x-if="selectedProject && selectedProject.tech_stacks && selectedProject.tech_stacks.length > 0">
+                        <div class="mb-8">
+                            <h4 class="text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-3">Built with</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <template x-for="tech in selectedProject.tech_stacks" :key="tech.id">
+                                    <div class="flex items-center gap-1.5 px-2 py-1 bg-gray-50 border border-gray-100 rounded text-[10px] font-bold text-gray-600">
+                                        <i :class="tech.icon" :style="'color: ' + (tech.color || '#9ca3af')"></i>
+                                        <span x-text="tech.name"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
 
                     <!-- Footer / Actions -->
                     <div class="flex flex-wrap items-center gap-4 pt-6 border-t border-gray-100">

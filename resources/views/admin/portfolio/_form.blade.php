@@ -41,6 +41,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tech Stack</label>
+            <div class="row g-2">
+                @foreach($techStacks as $tech)
+                    <div class="col-6 col-md-4">
+                        <label class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="tech_stacks[]" value="{{ $tech->id }}"
+                                {{ (isset($portfolio) && $portfolio->techStacks->contains($tech->id)) || (is_array(old('tech_stacks')) && in_array($tech->id, old('tech_stacks'))) ? 'checked' : '' }}>
+                            <span class="form-check-label">
+                                @if($tech->icon)
+                                    <i class="{{ $tech->icon }} me-1" style="color: {{ $tech->color ?? 'inherit' }}"></i>
+                                @endif
+                                {{ $tech->name }}
+                            </span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            @error('tech_stacks')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
 
     <div class="col-md-4">
