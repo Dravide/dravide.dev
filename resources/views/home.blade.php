@@ -27,7 +27,9 @@
 
             <div class="space-y-4 text-sm leading-relaxed text-gray-800 mb-8">
                 @if($profile && $profile->bio)
-                    <p>{{ $profile->bio }}</p>
+                    <div class="prose prose-sm max-w-none text-gray-600 prose-p:leading-relaxed">
+                        {!! $profile->bio !!}
+                    </div>
                 @else
                     <p>A passionate developer building web applications.</p>
                 @endif

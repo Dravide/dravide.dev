@@ -26,7 +26,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Bio</label>
-                        <textarea class="form-control" name="bio" rows="5" placeholder="Tell about yourself...">{{ old('bio', $profile->bio) }}</textarea>
+                        <textarea class="form-control" name="bio" id="bio_editor" rows="5" placeholder="Tell about yourself...">{{ old('bio', $profile->bio) }}</textarea>
                     </div>
 
                     <div class="mb-3">
@@ -118,4 +118,17 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#bio_editor'), {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ],
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 @endsection
