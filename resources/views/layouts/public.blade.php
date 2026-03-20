@@ -8,7 +8,7 @@
     <title>@yield('title', 'dravide.dev')</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="{{ isset($site_settings['site_favicon']) ? Storage::url($site_settings['site_favicon']) : asset('favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 

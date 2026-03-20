@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\TechStackController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('tech-stack/reorder', [TechStackController::class, 'reorder'])->name('tech-stack.reorder');
     Route::resource('tech-stack', TechStackController::class); // Added this line
     Route::resource('blog-posts', \App\Http\Controllers\Admin\BlogPostController::class);
+    
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
 // Breeze auth profile routes

@@ -9,6 +9,7 @@
     <!-- Tabler CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.2.0/dist/css/tabler.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+    <link rel="icon" href="{{ isset($site_settings['site_favicon']) ? Storage::url($site_settings['site_favicon']) : asset('favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="layout-fluid">
     <div class="page">
@@ -19,16 +20,26 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <h1 class="navbar-brand navbar-brand-autodark">
-                    <a href="{{ route('admin.dashboard') }}" class="text-decoration-none">
-                        <span class="badge bg-white text-dark me-2 px-2 py-1" style="font-family: monospace; font-size: 14px;">D</span>
-                        dravide.dev
+                    <a href="{{ route('admin.dashboard') }}" class="text-decoration-none d-flex align-items-center">
+                        @if(isset($site_settings['site_logo']))
+                            <img src="{{ Storage::url($site_settings['site_logo']) }}" height="32" alt="Logo" class="navbar-brand-image">
+                        @else
+                            <span class="badge bg-white text-dark me-2 px-2 py-1" style="font-family: monospace; font-size: 14px;">D</span>
+                            <span>dravide.dev</span>
+                        @endif
                     </a>
                 </h1>
                 <div class="collapse navbar-collapse" id="sidebar-menu">
                     <ul class="navbar-nav pt-lg-3">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                <span class="nav-link-icon"><i class="ti ti-dashboard"></i></span>
+                                <span class="nav-link-icon">
+                                    @if(isset($site_settings['site_logo']))
+                                        <img src="{{ Storage::url($site_settings['site_logo']) }}" width="24" height="24" alt="Logo" class="navbar-brand-image">
+                                    @else
+                                        <i class="ti ti-dashboard"></i>
+                                    @endif
+                                </span>
                                 <span class="nav-link-title">Dashboard</span>
                             </a>
                         </li>
@@ -60,6 +71,14 @@
                                     <i class="ti ti-news"></i>
                                 </span>
                                 <span class="nav-link-title">Blog</span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('admin.settings.index') }}">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-settings"></i>
+                                </span>
+                                <span class="nav-link-title">Settings</span>
                             </a>
                         </li>
                     </ul>
