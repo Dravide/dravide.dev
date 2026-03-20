@@ -22,7 +22,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [AdminProfileController::class, 'update'])->name('profile.update');
-    Route::resource('portfolios', PortfolioController::class)->except(['show']);
+    Route::resource('portfolios', PortfolioController::class);
+    Route::delete('portfolios/images/{image}', [PortfolioController::class, 'deleteImage'])->name('portfolios.delete-image');
     Route::post('tech-stack/reorder', [TechStackController::class, 'reorder'])->name('tech-stack.reorder');
     Route::resource('tech-stack', TechStackController::class); // Added this line
     Route::resource('blog-posts', \App\Http\Controllers\Admin\BlogPostController::class);

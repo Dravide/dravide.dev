@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use App\Models\TechStack;
+use App\Models\PortfolioImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,6 +44,13 @@ class PortfolioController extends Controller
         }
  
         $portfolio = Portfolio::create($validated);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('portfolios/gallery', 'public');
+                $portfolio->images()->create(['image_path' => $path]);
+            }
+        }
         
         if ($request->has('tech_stacks')) {
             $portfolio->techStacks()->sync($request->tech_stacks);
@@ -80,6 +88,13 @@ class PortfolioController extends Controller
         }
 
         $portfolio->update($validated);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('portfolios/gallery', 'public');
+                $portfolio->images()->create(['image_path' => $path]);
+            }
+        }
  
         if ($request->has('tech_stacks')) {
             $portfolio->techStacks()->sync($request->tech_stacks);
@@ -99,5 +114,12 @@ class PortfolioController extends Controller
         $portfolio->delete();
 
         return redirect()->route('admin.portfolios.index')->with('success', 'Portfolio item deleted successfully.');
+    }
+
+    public function deleteImage(PortfolioImage $image)
+    {
+        Storage::disk('public')->delete($image->image_path);
+        $image->delete();
+        return back()->with('success', 'Image deleted successfully.');
     }
 }

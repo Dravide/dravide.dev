@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Portfolio extends Model
@@ -60,5 +61,10 @@ class Portfolio extends Model
     public function techStacks(): BelongsToMany
     {
         return $this->belongsToMany(TechStack::class, 'portfolio_tech_stack');
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(PortfolioImage::class)->orderBy('sort_order');
     }
 }

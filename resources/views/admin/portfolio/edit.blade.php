@@ -15,4 +15,13 @@
         </form>
     </div>
 </div>
+
+@if(isset($portfolio))
+    @foreach($portfolio->images as $img)
+        <form id="delete-img-{{ $img->id }}" action="{{ route('admin.portfolios.delete-image', $img) }}" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
+    @endforeach
+@endif
 @endsection

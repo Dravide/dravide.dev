@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $profile = Profile::first();
-        $portfolios = Portfolio::visible()->ordered()->with('techStacks')->get();
+        $portfolios = Portfolio::visible()->ordered()->with(['techStacks', 'images'])->get();
         $techStacks = TechStack::visible()->ordered()->get();
         $blogPosts = BlogPost::where('is_published', true)->latest()->get();
 

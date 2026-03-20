@@ -67,14 +67,37 @@
     </div>
 
     <div class="col-md-4">
-        <div class="mb-3">
-            <label class="form-label">Image</label>
+        <div class="mb-4">
+            <label class="form-label font-bold">Main Thumbnail</label>
             @if(isset($portfolio) && $portfolio->image)
                 <div class="mb-2">
-                    <img src="{{ Storage::url($portfolio->image) }}" alt="{{ $portfolio->title }}" class="rounded" style="max-width: 100%;">
+                    <img src="{{ Storage::url($portfolio->image) }}" alt="{{ $portfolio->title }}" class="rounded shadow-sm border w-full h-32 object-cover">
                 </div>
             @endif
             <input type="file" class="form-control" name="image" accept="image/*">
+            <small class="text-muted text-[10px]">Main image shown on the project grid.</small>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label font-bold">Gallery Images (Slider)</label>
+            <input type="file" class="form-control mb-2" name="images[]" accept="image/*" multiple>
+            <small class="text-muted text-[10px]">Upload multiple images for the project detail slider.</small>
+            
+            @if(isset($portfolio) && $portfolio->images->isNotEmpty())
+                <div class="mt-3 row g-2">
+                    @foreach($portfolio->images as $img)
+                        <div class="col-4 position-relative group">
+                            <img src="{{ Storage::url($img->image_path) }}" class="rounded border w-full h-16 object-cover">
+                            <button type="button" 
+                                onclick="if(confirm('Delete this image?')) { document.getElementById('delete-img-{{ $img->id }}').submit(); }"
+                                class="btn btn-danger btn-icon btn-sm position-absolute top-0 end-0 m-1 opacity-0 group-hover:opacity-100 transition-opacity" 
+                                style="width: 20px; height: 20px; padding: 0;">
+                                <i class="ti ti-x text-[10px]"></i>
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <div class="mb-3">
